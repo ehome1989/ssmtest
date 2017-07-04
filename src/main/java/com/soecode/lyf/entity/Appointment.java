@@ -49,5 +49,9 @@ public class Appointment {
 	}
 	
 	// 省略构造方法，getter和setter方法，toString方法
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "[studentid="+this.getStudentId()+",bookid="+this.getBookId()+",appointtime="+this.getAppointTime()+",book=["+this.getBook()+"]]";
+	}
 }
