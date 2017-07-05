@@ -20,7 +20,7 @@
 <tr>
   <td>${book.bookId }</td>
   <td>${book.name }</td>
-  <td>${book.number }</td>
+  <td id=${book.bookId }>${book.number }</td>
   <td><input type="buttom" value="订阅" onclick="requestByJson(${book.bookId })"></td>
  
 </tr>
@@ -31,19 +31,28 @@
 
 	function requestByJson(bid) {
 		//alert(bid);
-		var stid=12345678911;
+		var stid=12345678915;
 		var p = {'studentId':stid};
 		$.ajax({
 			type : 'post',
 			url : "${pageContext.request.contextPath }/book/"+bid+"/appoint",
 			//设置contentType类型为json
-			//contentType : 'application/json;charset=utf-8',
+			//contentType : 'application/json;charset=utf-8',//错误写法
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',//缺省值
 			//json数据
-			data: {'studentId':stid},
-			dataType: "json",
+			data: {'bookId':1004,'studentId':stid},//必传参数必须填写，位置任意。增加参数，不影响执行
+			dataType: "json", //告诉服务器期待返回何种类型的数据
 			//请求成功后的回调函数
 			success : function(data) {
-				alert(data);
+				//alert(JSON.stringify(data));
+				var res = JSON.stringify(data);
+				var res2 = eval("("+res+")");//转换成json对象
+				alert(res2.data["stateInfo"]);//提示预约结果
+				if(res2.data["state"]==1){//预约成功需要更新库存数
+					var book = JSON.stringify(res2.data["appointment"]);
+					var appointment = eval("("+book+")");
+					$('td[id='+bid+']').html(appointment.book["number"]);
+				}
 			}
 		});
 	}
