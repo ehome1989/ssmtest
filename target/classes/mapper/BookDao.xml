@@ -16,6 +16,18 @@
 			book_id = #{bookId}
 	</select>
 	
+	<select id="queryByBookname" resultType="Book" parameterType="string">
+		<!-- 具体的sql -->
+		SELECT
+			book_id,
+			name,
+			number
+		FROM
+			book
+		WHERE
+			name like CONCAT('%',#{name},'%')
+	</select>
+	
 	<select id="queryAll" resultType="Book">
 		SELECT
 			book_id,

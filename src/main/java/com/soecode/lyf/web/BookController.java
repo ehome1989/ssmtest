@@ -38,6 +38,12 @@ public class BookController {
 		// list.jsp + model = ModelAndView
 		return "list";// WEB-INF/jsp/"list".jsp
 	}
+	@RequestMapping(value = "/listByName",method = RequestMethod.POST)
+	@ResponseBody
+	private List<Book> listByName(@RequestParam("name") String name){
+		List<Book> books = bookService.getByName(name);
+		return books;
+	}
 
 	@RequestMapping(value = "/{bookId}/detail", method = RequestMethod.GET)
 	private String detail(@PathVariable("bookId") Long bookId, Model model) {

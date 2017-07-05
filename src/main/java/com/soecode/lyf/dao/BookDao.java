@@ -15,6 +15,13 @@ public interface BookDao {
 	 * @return
 	 */
 	Book queryById(long id);
+	
+	/**
+	 * 通过书籍名称模糊查找
+	 * @param name
+	 * @return
+	 */
+	List<Book> queryByBookname(String name);
 
 	/**
 	 * 查询所有图书

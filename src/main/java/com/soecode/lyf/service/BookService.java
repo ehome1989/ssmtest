@@ -17,7 +17,14 @@ public interface BookService {
 	 * @return
 	 */
 	Book getById(long bookId);
-
+	
+	/**
+	 * 书名模糊查找匹配书籍
+	 * @param name
+	 * @return
+	 */
+	List<Book> getByName(String name);
+	
 	/**
 	 * 查询所有图书
 	 * 

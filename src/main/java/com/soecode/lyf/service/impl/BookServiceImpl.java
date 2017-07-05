@@ -82,4 +82,9 @@ public class BookServiceImpl implements BookService {
 		}
 	}
 
+	@Override
+	public List<Book> getByName(String name) {
+		return bookDao.queryByBookname(name);
+	}
+
 }

@@ -8,8 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="${pageContext.request.contextPath }/book/list" rel="external nofollow" >查询书单</a>
-<table width="70%" border=1>
+<form action="${pageContext.request.contextPath }/book/listByName" method="get">
+<input id="bookname" name="name" type="text" />
+<input type="button" value="搜索" onclick="listBooks()"/>
+</form>
+<table id="book" width="70%" border=1>
 <tr>
   <td>书籍编号</td>
   <td>名称</td>
@@ -56,7 +59,18 @@
 			}
 		});
 	}
-	
+	function listBooks(){
+		var name = $('input[id="bookname"]').val();
+		alert(name);
+		$.ajax({
+			type : "post",
+			url : "${pageContext.request.contextPath }/book/listByName",
+			data: {'name':name},
+			success : function(data){
+				$('table[id="book"]').empty();//如何重新加载表格数据????
+			}
+		});
+	}
 
 </script>
 </html>
