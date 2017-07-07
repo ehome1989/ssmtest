@@ -1,5 +1,6 @@
 package com.soecode.lyf.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -8,11 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soecode.lyf.dto.AppointExecution;
 import com.soecode.lyf.dto.Result;
@@ -30,19 +33,27 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	
+	
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	private String list(Model model) {
-		List<Book> list = bookService.getList();
-		model.addAttribute("list", list);
+	private String list(@RequestParam(value="name",required=false,defaultValue="") String name ,Model model) {
+		if(name == null || "".equals(name.trim())){
+			List<Book> list = bookService.getList();
+			model.addAttribute("list",list);
+		}else{
+			List<Book> books = bookService.getByName(name);
+			model.addAttribute("list",books);
+		}
 		// list.jsp + model = ModelAndView
 		return "list";// WEB-INF/jsp/"list".jsp
 	}
-	@RequestMapping(value = "/listByName",method = RequestMethod.POST)
-	@ResponseBody
-	private List<Book> listByName(@RequestParam("name") String name){
+	
+	@RequestMapping(value = "/listByName",method = RequestMethod.GET)
+	private String listByName(@RequestParam("name") String name, Model model){
 		List<Book> books = bookService.getByName(name);
-		return books;
+		model.addAttribute("list",books);
+		return "searchResult.jsp";
 	}
 
 	@RequestMapping(value = "/{bookId}/detail", method = RequestMethod.GET)

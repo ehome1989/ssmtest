@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>书籍搜索页</title>
 </head>
 <body>
 输入书籍名称进行搜索<br>
-<form action="#" method="get">
+<form action="${pageContext.request.contextPath }/book/search" method="get">
 <input id="bookname" name="name" type="text" />
 <input type="button" value="搜 索" onclick="listBooks()"/>
 </form>
@@ -33,7 +33,6 @@
 </body> 
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.js" type="text/javascript"></script>
 <script type="text/javascript">
-
 	function requestByJson(bid) {
 		//alert(bid);
 		var stid=12345678916;
@@ -66,8 +65,8 @@
 		alert(name);
 		$.ajax({
 			type : "get",
-			url : "${pageContext.request.contextPath }/book/list?name="+name
-			//data: {'name':name}
+			url : "${pageContext.request.contextPath }/book/search",
+			data: {'name':name}
 		});
 	}
 
