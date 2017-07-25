@@ -8,8 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-输入书籍名称进行搜索<br>
-<form action="#" method="get">
+<span>${username}</span>&nbsp;
+<c:if test="${username!=null}">  
+        <a href="#" onclick="logout(${username})">退出</a>  
+    </c:if>  
+<br/>
+输入书籍名称进行搜索<form action="#" method="get">
 <input id="bookname" name="name" type="text" />
 <input type="button" value="搜 索" onclick="listBooks()"/>
 </form>
@@ -25,7 +29,7 @@
   <td>${book.bookId }</td>
   <td>${book.name }</td>
   <td id=${book.bookId }>${book.number }</td>
-  <td><input type="buttom" value="订阅" onclick="requestByJson(${book.bookId })"></td>
+  <td><a href="#" onclick="requestByJson(${ username},${book.bookId })">订 阅</a></td>
  
 </tr>
 </c:forEach>
@@ -33,10 +37,9 @@
 </body> 
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.js" type="text/javascript"></script>
 <script type="text/javascript">
-
-	function requestByJson(bid) {
+	function requestByJson(stid, bid) {
 		//alert(bid);
-		var stid=12345678916;
+		//var stid=12345678918;
 		var p = {'studentId':stid};
 		$.ajax({
 			type : 'post',
@@ -70,6 +73,16 @@
 			//data: {'name':name}
 		});
 	}
-
+	function logout(username){
+		alert(username+"退出登录");
+		$.ajax({
+			type : "post",
+			url : "${pageContext.request.contextPath }/logout",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",	
+			data : {"username":username},
+			dataType : "json",
+			success : function(data){}
+		});
+	}
 </script>
 </html>

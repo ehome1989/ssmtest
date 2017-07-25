@@ -6,7 +6,7 @@
 <title>登录</title>
 </head>
 <body>
-<form action="book/list" method="post">
+<form action="${pageContext.request.contextPath }/login" method="post">
 <label>账号：</label>
 <input type="text" id="txtUsername" name="username" placeholder="请输入账号" /><br/>
 <label>密码：</label>
